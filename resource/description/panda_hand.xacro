@@ -13,12 +13,12 @@
         <link name="${ns}_hand">
             <visual>
                 <geometry>
-                    <mesh filename="file://$(find manipulator)/meshes/visual/hand.dae" />
+                    <mesh filename="file://$(find manipulator)/resource/meshes/visual/hand.dae" />
                 </geometry>
             </visual>
             <collision>
                 <geometry>
-                    <mesh filename="file://$(find manipulator)/meshes/collision/hand.stl" />
+                    <mesh filename="file://$(find manipulator)/resource/meshes/collision/hand.stl" />
                 </geometry>
             </collision>
             <inertial>

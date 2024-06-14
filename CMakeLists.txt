@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 project(manipulator)
 
-# Default to C++17
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)
 endif()
@@ -32,10 +31,11 @@ ament_python_install_package(${PROJECT_NAME})
 # Install Python executables
 install(PROGRAMS
   manipulator/controller.py
+  manipulator/load_dmps.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
-install(DIRECTORY launch rviz meshes config resource description 
+install(DIRECTORY launch config resource
   DESTINATION share/${PROJECT_NAME})
   
   

@@ -14,9 +14,9 @@ def generate_launch_description():
 
     pkg_share = get_package_share_directory(pkg_name)
 
-    urdf_path = 'description/manipulator.urdf.xacro'
+    urdf_path = 'resource/description/manipulator.urdf.xacro'
 
-    rviz_relative_path = 'rviz/config.rviz'
+    rviz_relative_path = 'resource/rviz/config.rviz'
 
     rviz_absolute_path = os.path.join(pkg_share, rviz_relative_path)
 
@@ -33,7 +33,7 @@ def generate_launch_description():
     else:
         model_path = models_path
 
-    # robot state publisher node
+    # robot state publisher nodey
     node_robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',

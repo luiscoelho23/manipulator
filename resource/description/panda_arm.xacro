@@ -47,19 +47,19 @@
     <joint name="robot_to_world" type="fixed">
       <parent link="world" />
       <child link="${arm_id}_link0" />
-      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <origin xyz="0.0 0.0 1.0" rpy="0.0 0.0 0.0" />
       <dynamics damping="${joint_damping}" />
     </joint>
 
     <link name="${arm_id}_link0">
       <visual>
         <geometry>
-          <mesh filename="file://$(find manipulator)/meshes/visual/link0.dae" />
+          <mesh filename="file://$(find manipulator)/resource/meshes/visual/link0.dae" />
         </geometry>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="file://$(find manipulator)/meshes/collision/link0.stl" />
+          <mesh filename="file://$(find manipulator)/resource/meshes/collision/link0.stl" />
         </geometry>
       </collision>
       <inertial>
@@ -71,12 +71,12 @@
     <link name="${arm_id}_link1">
       <visual>
         <geometry>
-          <mesh filename="file://$(find manipulator)/meshes/visual/link1.dae" />
+          <mesh filename="file://$(find manipulator)/resource/meshes/visual/link1.dae" />
         </geometry>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="file://$(find manipulator)/meshes/collision/link1.stl" />
+          <mesh filename="file://$(find manipulator)/resource/meshes/collision/link1.stl" />
         </geometry>
       </collision>
       <inertial>
@@ -100,12 +100,12 @@
     <link name="${arm_id}_link2">
       <visual>
         <geometry>
-          <mesh filename="file://$(find manipulator)/meshes/visual/link2.dae" />
+          <mesh filename="file://$(find manipulator)/resource/meshes/visual/link2.dae" />
         </geometry>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="file://$(find manipulator)/meshes/collision/link2.stl" />
+          <mesh filename="file://$(find manipulator)/resource/meshes/collision/link2.stl" />
         </geometry>
       </collision>
       <inertial>
@@ -129,12 +129,12 @@
     <link name="${arm_id}_link3">
       <visual>
         <geometry>
-          <mesh filename="file://$(find manipulator)/meshes/visual/link3.dae" />
+          <mesh filename="file://$(find manipulator)/resource/meshes/visual/link3.dae" />
         </geometry>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="file://$(find manipulator)/meshes/collision/link3.stl" />
+          <mesh filename="file://$(find manipulator)/resource/meshes/collision/link3.stl" />
         </geometry>
       </collision>
       <inertial>
@@ -159,12 +159,12 @@
     <link name="${arm_id}_link4">
       <visual>
         <geometry>
-          <mesh filename="file://$(find manipulator)/meshes/visual/link4.dae" />
+          <mesh filename="file://$(find manipulator)/resource/meshes/visual/link4.dae" />
         </geometry>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="file://$(find manipulator)/meshes/collision/link4.stl" />
+          <mesh filename="file://$(find manipulator)/resource/meshes/collision/link4.stl" />
         </geometry>
       </collision>
       <inertial>
@@ -189,12 +189,12 @@
     <link name="${arm_id}_link5">
       <visual>
         <geometry>
-          <mesh filename="file://$(find manipulator)/meshes/visual/link5.dae" />
+          <mesh filename="file://$(find manipulator)/resource/meshes/visual/link5.dae" />
         </geometry>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="file://$(find manipulator)/meshes/collision/link5.stl" />
+          <mesh filename="file://$(find manipulator)/resource/meshes/collision/link5.stl" />
         </geometry>
       </collision>
       <inertial>
@@ -218,12 +218,12 @@
     <link name="${arm_id}_link6">
       <visual>
         <geometry>
-          <mesh filename="file://$(find manipulator)/meshes/visual/link6.dae" />
+          <mesh filename="file://$(find manipulator)/resource/meshes/visual/link6.dae" />
         </geometry>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="file://$(find manipulator)/meshes/collision/link6.stl" />
+          <mesh filename="file://$(find manipulator)/resource/meshes/collision/link6.stl" />
         </geometry>
       </collision>
       <inertial>
@@ -247,12 +247,12 @@
     <link name="${arm_id}_link7">
       <visual>
         <geometry>
-          <mesh filename="file://$(find manipulator)/meshes/visual/link7.dae" />
+          <mesh filename="file://$(find manipulator)/resource/meshes/visual/link7.dae" />
         </geometry>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="file://$(find manipulator)/meshes/collision/link7.stl" />
+          <mesh filename="file://$(find manipulator)/resource/meshes/collision/link7.stl" />
         </geometry>
       </collision>
       <inertial>

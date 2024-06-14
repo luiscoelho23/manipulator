@@ -9,17 +9,16 @@ import xacro
 
 
 def generate_launch_description():
+    pkg_name = 'manipulator'  #the package name
 
-    pkg_name = 'manipulator' #the package name
-    
-    pkg_share= get_package_share_directory(pkg_name)
-    
-    urdf_path = 'description/manipulator.urdf.xacro'
+    pkg_share = get_package_share_directory(pkg_name)
 
-    rviz_relative_path= 'rviz/config.rviz'
+    urdf_path = 'resource/description/manipulator.urdf.xacro'
+
+    rviz_relative_path = 'resource/rviz/config.rviz'
 
     rviz_absolute_path = os.path.join(pkg_share, rviz_relative_path)
-    
+
     # extracting the robot deffinition from the xacro file
     xacro_file = os.path.join(pkg_share, urdf_path)
     robot_description_content = xacro.process_file(xacro_file).toxml()
@@ -42,7 +41,7 @@ def generate_launch_description():
         package='rviz2',
         executable='rviz2',
         name='rviz2',
-        arguments= ['-d', rviz_absolute_path]
+        arguments=['-d', rviz_absolute_path]
     )
 
     # Run the nodes
