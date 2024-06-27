@@ -84,8 +84,7 @@
     </gazebo>
 
     <gazebo reference="${robot_name}_link7">
-
-        <!-- <kp>50000.0</kp> -->
+     
         <kp>50000.0</kp>
         <kd>1.0</kd>
         <min_depth>0</min_depth>

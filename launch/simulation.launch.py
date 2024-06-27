@@ -32,6 +32,10 @@ def generate_launch_description():
         model_path = os.environ['GAZEBO_MODEL_PATH'] + ':' + models_path
     else:
         model_path = models_path
+        
+    world_relative_path =  "resource/worlds/world.sdf"
+    world_absolute_path = os.path.join(pkg_share, world_relative_path)
+    
 
     # robot state publisher nodey
     node_robot_state_publisher = Node(
@@ -50,6 +54,7 @@ def generate_launch_description():
     # Gazebo launch file
     launch_gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('gazebo_ros'), 'launch'), '/gazebo.launch.py']),
+        launch_arguments={'world': world_absolute_path}.items()
     )
     # entity spawn node (to spawn the robot from the /robot_description topic)
     node_spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',

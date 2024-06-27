@@ -32,6 +32,7 @@ ament_python_install_package(${PROJECT_NAME})
 install(PROGRAMS
   manipulator/controller.py
   manipulator/load_dmps.py
+  manipulator/dmp_generator.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

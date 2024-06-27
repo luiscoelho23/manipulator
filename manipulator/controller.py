@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 from rclpy.action import ActionClient
 from rclpy.node import Node

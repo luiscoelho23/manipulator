@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#!/usr/bin/python3
 
 import sys
 import numpy as np
@@ -45,7 +45,7 @@ def dmp_load():
 
 # load entire motion library and use first DMP stored
 # @note alternatively, only required DMP could be loaded (from index or label)
-library = motion.mpx.load_from('/home/luisc/workspaces/ws_manipulator/src/manipulator/resource/dmps.mpx')
+library = motion.mpx.load_from('/home/luisc/workspaces/ws_manipulator/src/manipulator/resource/dmp/dmp_output/dmp.mpx')
 policy = library.policies[0]
 # policy.reset(policy.goals())
 for dim in policy:

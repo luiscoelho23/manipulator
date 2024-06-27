@@ -31,10 +31,3 @@ To launch the simulation:
 ```
 ros2 launch manipulator simulation.launch.py
 ```
-To run the controller, In another terminal, run the following:</br>
-##### Make python script executable first !!
-
-
-```
-ros2 run manipulator controller.py <ang1> <ang2> <ang3> <ang4> <ang5> <ang6> <ang7>
-```
