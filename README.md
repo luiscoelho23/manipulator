@@ -1,33 +1,42 @@
 # Manipulator
 
-A simulation in gazebo with rviz vizualization of a FRANKA EMIKA Panda robot. </br>
+A FRANKA EMIKA Panda robot. </br>
+DMP generator.  </br>
+RL Envoriments. </br>
 
+## DEPS
+- cpp-utils
+- mplearn
+- mplibrary
+- CMA-ES
+- tinyxml2
+
+### Vizualization
+- ros2-gazebo
+- rviz2
 
 ## Build
 
 ```
-cd colcon_ws
-colcon build --packages-select manipulator --symlink-install
-. install/setup.bash
-```
-
-#### Build DMP Loader deps
-```
-colcon build --packages-select cpp_utils mplibrary --ament-cmake-args -DCMAKE_CXX_COMPILER=g++-11
+cd ws
+colcon build
+. install/setup.bash <-- source .bashrc
 ```
 
 ## Run 
 #### Tested on: 
-- Ubuntu 22.04.04 LTS </br>
-- Kernel Vesion 6.5.0-27-generic </br>
+- WSL2 - Ubuntu 22.04.03 LTS </br>
 - Ros2 - Humble
+
+Erase manipulator.urdf from resources/robot_description and generate new with xacro manipulator.urdf.xacro
 
 To launch rviz vizualization:
 ```
-ros2 launch manipulator inRviz.launch.py
+ros2 launch manipulator rviz.launch.py
 ```
 
 To launch the simulation:
 ```
 ros2 launch manipulator simulation.launch.py
 ```
+--symlink-install

@@ -14,29 +14,41 @@ find_package(rclcpp REQUIRED)
 find_package(rclpy REQUIRED)
 
 # Include Cpp "include" directory
-include_directories(include)
+#include_directories(include)
 
 ## Create Cpp executable
-# add_executable(cpp_executable src/cpp_node.cpp)
-# ament_target_dependencies(cpp_executable rclcpp)
+#add_executable(get_ang_xyz src/get_ang_xyz.cpp)
+#ament_target_dependencies(get_ang_xyz rclcpp
+#                                      mplibrary)
 
 ## Install Cpp executables
 #install(TARGETS
-#  cpp_executable
+#  get_ang_xyz
 #  DESTINATION lib/${PROJECT_NAME}
+#)
+
+#target_link_libraries( get_ang_xyz
+#    mplibrary::mplibrary
 #)
 
 # Install Python modules
 ament_python_install_package(${PROJECT_NAME})
-# Install Python executables
+
 install(PROGRAMS
   manipulator/controller.py
   manipulator/load_dmps.py
   manipulator/dmp_generator.py
+  manipulator/load_rl.py
+
+  manipulator/rl/kdl_parser.py
+  manipulator/rl/nn.py
+
+  manipulator/rl/saved_models/EP.pt
+  
   DESTINATION lib/${PROJECT_NAME}
 )
 
-install(DIRECTORY launch config resource
+install(DIRECTORY launch config resources
   DESTINATION share/${PROJECT_NAME})
   
   

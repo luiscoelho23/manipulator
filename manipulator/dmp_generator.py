@@ -8,15 +8,15 @@ import matplotlib.pyplot as plt
 
 # assert(len(sys.argv) > 1)
 # sys.path.append(sys.argv[1])
-sys.path.append('/home/luisc/workspaces/ws_manipulator/build/mplibrary')
+sys.path.append('/home/luisc/ws_manipulator/build/mplibrary')
 import pymplibrary as motion
-sys.path.append('/home/luisc/workspaces/ws_manipulator/build/mplearn')
+sys.path.append('/home/luisc/ws_manipulator/build/mplearn')
 import pymplearn as learn
 
 # load DMP learning configuration
 try:
     # config = learn.regression.Config.load('discrete_dmp_regression.yaml')
-    config = learn.regression.Config.load("/home/luisc/workspaces/ws_manipulator/src/manipulator/resource/dmp/discrete.yaml")
+    config = learn.regression.Config.load("/home/luisc/ws_manipulator/src/manipulator/resources/dmp/discrete.yaml")
 
 except Exception as err:
     print('Usage: python ' + os.path.basename(__file__) + ' <config>')
@@ -28,7 +28,7 @@ except Exception as err:
 # print(config.n_basis)
 
 # load reference data to learn
-reference = np.loadtxt('/home/luisc/workspaces/ws_manipulator/src/manipulator/resource/dmp/6dmp.csv', delimiter=',')
+reference = np.loadtxt('/home/luisc/ws_manipulator/src/manipulator/resources/dmp/3dmp.csv', delimiter=',')
 # reference = reference[:, 1:]  # discard first column (sample index)
 n_samples, n_dims = reference.shape
 
@@ -74,12 +74,12 @@ policy = motion.DMP(n_dims, skill)
 for idx, dim in enumerate(policy): 
     dim.goal = learn.regression.getDMPBaseline(reference[:, idx], config.baseline_method)
     dim.parameters = config.damping
-    dim.value = dim.goal   # reset state to baseline
+
 
 # run optimization
 # @note multifit() runs DMP regression for each *row* in reference data, need to transpose reference data
 # @note motion.mat() to wrap numpy arrays when passing to mplearn/mplibrary types
-sols = learn.regression.fitPolicy(motion.mat(reference.transpose()), pvals, policy, "", config)
+sols = learn.regression.multifit(motion.mat(reference.transpose()), pvals, library.primitives, [], config)
 
 # normalize DMP temporal scale
 # @note optional, otherwise phase slope would need to be stored in target file
@@ -88,4 +88,4 @@ policy.tscale(1.0 / phase.pace)
 # export to file
 library.skills.add(skill)
 library.policies.add(policy)
-motion.mpx.save(library, '/home/luisc/workspaces/ws_manipulator/src/manipulator/resource/dmp/dmp_output/dmp.mpx')
+motion.mpx.save(library, '/home/luisc/ws_manipulator/src/manipulator/resources/dmp/dmp_output/dmp.mpx')

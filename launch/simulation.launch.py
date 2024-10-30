@@ -14,9 +14,9 @@ def generate_launch_description():
 
     pkg_share = get_package_share_directory(pkg_name)
 
-    urdf_path = 'resource/description/manipulator.urdf.xacro'
+    urdf_path = 'resources/robot_description/manipulator.urdf.xacro'
 
-    rviz_relative_path = 'resource/rviz/config.rviz'
+    rviz_relative_path = 'resources/rviz/config.rviz'
 
     rviz_absolute_path = os.path.join(pkg_share, rviz_relative_path)
 
@@ -33,9 +33,8 @@ def generate_launch_description():
     else:
         model_path = models_path
         
-    world_relative_path =  "resource/worlds/world.sdf"
+    world_relative_path =  "resources/worlds/world.xml"
     world_absolute_path = os.path.join(pkg_share, world_relative_path)
-    
 
     # robot state publisher nodey
     node_robot_state_publisher = Node(
@@ -44,6 +43,7 @@ def generate_launch_description():
         output='screen',
         parameters=[{'robot_description': robot_description_content}]
     )
+
     # Rviz2 node
     node_rviz = Node(
         package='rviz2',
@@ -57,10 +57,11 @@ def generate_launch_description():
         launch_arguments={'world': world_absolute_path}.items()
     )
     # entity spawn node (to spawn the robot from the /robot_description topic)
-    node_spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
+    spawn_entity_robot = Node(package='gazebo_ros', executable='spawn_entity.py',
                              arguments=['-topic', 'robot_description',
                                         '-entity', robot_name],
                              output='screen')
+
     # spawning the joint broadcaster
     spawn_broadcaster = Node(
         package="controller_manager",
@@ -72,15 +73,18 @@ def generate_launch_description():
     spawn_controller = Node(
         package="controller_manager",
         executable="spawner",
+        #arguments=["forward_position_controller"], 
         arguments=["joint_trajectory_controller"],
         output="screen",
     )
+    
     # Run the nodes
     return LaunchDescription([
+    
         SetEnvironmentVariable(name='GAZEBO_MODEL_PATH', value=model_path),
         node_robot_state_publisher,
         launch_gazebo,
-        node_spawn_entity,
+        spawn_entity_robot,
         # node_rviz,
         spawn_broadcaster,
         spawn_controller
