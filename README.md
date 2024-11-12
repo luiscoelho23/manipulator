@@ -2,6 +2,7 @@
 
 A FRANKA EMIKA Panda robot. </br>
 DMP generator.  </br>
+Trajectory Mapping <br>
 RL Envoriments. </br>
 
 ## DEPS
@@ -25,7 +26,7 @@ colcon build
 
 ## Run 
 #### Tested on: 
-- WSL2 - Ubuntu 22.04.06 LTS </br>
+- Ubuntu 22.04.5 LTS (GNU/Linux 5.15.153.1-microsoft-standard-WSL2 x86_64) </br>
 - Ros2 - Humble
 
 Erase manipulator.urdf from resources/robot_description and generate new with xacro manipulator.urdf.xacro
@@ -39,4 +40,21 @@ To launch the simulation:
 ```
 ros2 launch manipulator simulation.launch.py
 ```
---symlink-install
+
+To run DMP + RL Model
+```
+ros2 run manipulator load_dmps.py
+```
+
+To Generate DMP and Mapping trajectories to Franka Panda
+```
+cd manipulator
+python3 dmp_generator.py 
+python3 trajectory_mapping.py
+```
+
+To train Rl model
+```
+cd manipulator/rl
+python3 train.py
+```
