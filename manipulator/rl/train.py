@@ -7,8 +7,7 @@ import torch.optim as optim
 from torch.distributions import Normal
 import numpy as np
 import random
-import env_dmp_obstacle_via_points as Env
-#import env_traj as Env
+import env_dmp_obstacle as Env
 from collections import namedtuple, deque
 import matplotlib.pyplot as plt
 from nn import PolicyNetwork, QNetwork

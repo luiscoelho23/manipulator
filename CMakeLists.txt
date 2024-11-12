@@ -37,13 +37,10 @@ ament_python_install_package(${PROJECT_NAME})
 install(PROGRAMS
   manipulator/controller.py
   manipulator/load_dmps.py
-  manipulator/dmp_generator.py
   manipulator/load_rl.py
 
   manipulator/rl/kdl_parser.py
   manipulator/rl/nn.py
-
-  manipulator/rl/saved_models/EP.pt
   
   DESTINATION lib/${PROJECT_NAME}
 )

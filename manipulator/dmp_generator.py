@@ -52,8 +52,7 @@ print('Phase values: [' + str(pvals[0]) + ' ... ' + str(pvals[-1]) + ']')
 # create multiple primitives in bulk
 # @note alternatively, primtives could be created & added to library one by one
 library = motion.Library()
-library.primitives = motion.Primitive.GaussianPrimitiveLibrary(config.n_primitives, config.n_basis, phase.limits.lower, phase.limits.upper, 0.15 * motion.kernel.Gaussian.scaleWidth(config.n_basis))
-
+library.primitives = motion.Primitive.withGaussianBasis(config.n_primitives, config.n_basis, phase.limits.lower, phase.limits.upper, motion.kernel.Gaussian.scaleWidth(config.n_basis))
 # plot basis (for debug)
 #fig, ax = plt.subplots(constrained_layout=True)
 #ax.set_xlim(config.phase_bounds)
@@ -71,16 +70,16 @@ skill.setWeights(motion.mat(np.identity(n_dims)))  # identity matrix as primitiv
 policy = motion.DMP(n_dims, skill)
 # parametrize DMP
 
-for idx, dim in enumerate(policy): 
+for idx, dim in enumerate(policy):
     dim.goal = learn.regression.getDMPBaseline(reference[:, idx], config.baseline_method)
     dim.parameters = config.damping
+    dim.value = reference[0, idx]   # reset state to baseline
 
 
 # run optimization
 # @note multifit() runs DMP regression for each *row* in reference data, need to transpose reference data
 # @note motion.mat() to wrap numpy arrays when passing to mplearn/mplibrary types
-sols = learn.regression.multifit(motion.mat(reference.transpose()), pvals, library.primitives, [], config)
-
+sols = learn.regression.fitPolicy(motion.mat(reference.transpose()), pvals, policy, "", config)
 # normalize DMP temporal scale
 # @note optional, otherwise phase slope would need to be stored in target file
 policy.tscale(1.0 / phase.pace)

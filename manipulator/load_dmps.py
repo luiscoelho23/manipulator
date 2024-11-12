@@ -99,16 +99,16 @@ def dmp_load():
         x,z = get_ee_position(policy.value[0],policy.value[1],policy.value[2])
         x_t,z_t = get_ee_position(main_trajectory_ang[0 + traj_index * 3],main_trajectory_ang[1 + traj_index * 3],main_trajectory_ang[2 + traj_index * 3])
         state = [x,z,x_t,z_t,phase.value,x_ob,z_ob]
-        action = load_rl.get_action(state)
+        #action = load_rl.get_action(state)
         phase.update(ts)
         policy.update(ts, phase.value)
         #if phase.value > 0.49 and phase.value < 0.5:
         #    print("+++")
         #    policy.value = [policy.value[0] + 1 ,policy.value[1] + 1 ,policy.value[2]+ 1]
-        if math.dist([x,z],[x_ob,z_ob]) < 0.10:
-            policy.value = [policy.value[0] + action[0] ,policy.value[1] + action[1] ,policy.value[2]+ action[2]]
-        #client.send_goal((-180) * np.pi / 180,( policy.value[0]  ) * np.pi / 180, 0, (-180 + policy.value[1]) * np.pi / 180,
-        #                 0, (135 + policy.value[2]) * np.pi / 180, 0)
+        #if math.dist([x,z],[x_ob,z_ob]) < 0.10:
+        #    policy.value = [policy.value[0] + action[0] ,policy.value[1] + action[1] ,policy.value[2]+ action[2]]
+        client.send_goal((-180) * np.pi / 180,( policy.value[0]  ) * np.pi / 180, 0, (-180 + policy.value[1]) * np.pi / 180,
+                         0, (135 + policy.value[2]) * np.pi / 180, 0)
         out = str(x) + ";" + str(z) + "\n"
         real_traj.write(out)
        # traj_index += 1

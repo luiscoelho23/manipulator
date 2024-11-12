@@ -36,9 +36,7 @@ class DmpObstacleEnv:
         self.robot = URDF.from_xml_file("/home/luisc/ws_manipulator/src/manipulator/resources/robot_description/manipulator.urdf")
         (_,self.kdl_tree) = kdl_parser.treeFromUrdfModel(self.robot)
         self.kdl_chain = self.kdl_tree.getChain("panda_link0", "panda_finger")
-        #self.library = motion.mpx.load_from('/home/luisc/ws_manipulator/src/manipulator/resources/dmp/dmp_output/dmpnew5.mpx')
-        self.library = motion.mpx.load_from('/home/luisc/ws_dmps/src/mplearn/python/dmp.mpx')
-        
+        self.library = motion.mpx.load_from('/home/luisc/ws_manipulator/src/manipulator/resources/dmp/dmp_output/mapped_dmp_traj5.mpx')
         self.policy = self.library.policies[0]
         self.phase = motion.LinearPacer(1.0)
         self.phase.value = 0.1

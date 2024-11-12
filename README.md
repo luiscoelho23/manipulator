@@ -25,7 +25,7 @@ colcon build
 
 ## Run 
 #### Tested on: 
-- WSL2 - Ubuntu 22.04.03 LTS </br>
+- WSL2 - Ubuntu 22.04.06 LTS </br>
 - Ros2 - Humble
 
 Erase manipulator.urdf from resources/robot_description and generate new with xacro manipulator.urdf.xacro
