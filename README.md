@@ -2,7 +2,7 @@
 
 A FRANKA EMIKA Panda robot. </br>
 DMP generator.  </br>
-Trajectory Mapping <br>
+Trajectory Mapping. <br>
 RL Envoriments. </br>
 
 ## DEPS
@@ -11,8 +11,9 @@ RL Envoriments. </br>
 - mplibrary
 - CMA-ES
 - tinyxml2
+- ros2-controller-manager
 
-### Vizualization
+### Vizualization & Simulation
 - ros2-gazebo
 - rviz2
 
@@ -21,15 +22,16 @@ RL Envoriments. </br>
 ```
 cd ws
 colcon build
-. install/setup.bash <-- source .bashrc
+source install/setup.bash
 ```
+
+*source install/setup.bash -> ~/.bashrc
+*Erase manipulator.urdf from resources/robot_description and generate new with xacro manipulator.urdf.xacro
 
 ## Run 
 #### Tested on: 
 - Ubuntu 22.04.5 LTS (GNU/Linux 5.15.153.1-microsoft-standard-WSL2 x86_64) </br>
 - Ros2 - Humble
-
-Erase manipulator.urdf from resources/robot_description and generate new with xacro manipulator.urdf.xacro
 
 To launch rviz vizualization:
 ```
