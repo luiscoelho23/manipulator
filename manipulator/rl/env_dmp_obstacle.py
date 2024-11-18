@@ -28,9 +28,10 @@ class DmpObstacleEnv:
         self.target_last_position = np.empty(2)
         self.target_velocity = np.empty(2)
         
-        self.obstacles = np.array([(-0.4, -0.15)])
-        self.closest_obtacle = np.array([-0.4, -0.15])
+        self.obstacles = np.array([( -0.35, -0.15 + ( 0.1 *(np.random.rand() - 0.5))) ])
+        self.closest_obtacle = np.array([self.obstacles[0][0], self.obstacles[0][1]])
         self.traj_index = 0
+        self.repeat_ob = False
         self.done = False   
     
         self.robot = URDF.from_xml_file("/home/luisc/ws_manipulator/src/manipulator/resources/robot_description/manipulator.urdf")
@@ -74,6 +75,7 @@ class DmpObstacleEnv:
         #self.policy.reset([126.86,138.226,27.3175])
         self.policy.reset([95.39636567969238,95.39636567969238,9.219886560012206])
         
+        self.repeat_ob = False
         self.done = False
         
         return self._get_obs(), {}
@@ -84,6 +86,7 @@ class DmpObstacleEnv:
     def step(self, action):
         
         reward = 0
+        
         self.phase.update(self.ts)
         self.policy.update(self.ts, self.phase.value)
         
@@ -103,9 +106,9 @@ class DmpObstacleEnv:
             if dist < 0.06:
                 reward -= 1000/dist
             if dist < 0.04:
+                self.repeat_ob = True
                 reward -= 100000/dist
 
-        
 
         self.agent_position = self.get_ee_position(self.policy.value[0] ,self.policy.value[1],self.policy.value[2])
         self.agent_velocity = np.array(self.agent_position) - np.array(self.agent_last_position)
@@ -120,12 +123,16 @@ class DmpObstacleEnv:
         
         reward -= (distance_main_trajectory * 1000)
         
-        reward -= np.sqrt((self.agent_velocity[0] - self.target_velocity[0])**2 + (self.agent_velocity[1] - self.target_velocity[1])**2) * 1000
+        reward -= np.sqrt((self.agent_velocity[0] - self.target_velocity[0])**2 + (self.agent_velocity[1] - self.target_velocity[1])**2) * 10000
         
         if self.phase.value >= 0.992:
             if distance_main_trajectory < 0.05:
                 reward += 1/(distance_main_trajectory + 0.01)
             reward -= distance_main_trajectory * 1000
+            if not self.repeat_ob:    
+                self.obstacles = np.array([( -0.35 + ( 0.15 *(np.random.rand() - 0.5)), -0.2 + ( 0.15 *(np.random.rand() - 0.5))) ])
+                self.closest_obtacle = np.array([self.obstacles[0][0], self.obstacles[0][1]])
+            self.repeat_ob = False
             self.done = True
        
         self.traj_index += 1

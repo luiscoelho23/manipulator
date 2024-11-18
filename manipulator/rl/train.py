@@ -40,7 +40,7 @@ class ReplayBuffer():
         s_prime_batch = torch.tensor(np.array(s_prime_lst), dtype=torch.float).to(self.dev)
         done_batch = torch.tensor(np.array(done_mask_lst), dtype=torch.float).to(self.dev)
 
-        # r_batch = (r_batch - r_batch.mean()) / (r_batch.std() + 1e-7)
+        r_batch = (r_batch - r_batch.mean()) / (r_batch.std() + 1e-7)
 
         return s_batch, a_batch, r_batch, s_prime_batch, done_batch
 
@@ -53,18 +53,17 @@ class SAC_Agent:
 
         self.state_dim      = state_dim  
         self.action_dim     = action_dim 
-        self.lr_pi          = 0.00001
-        self.lr_q           = 0.00001
+        self.lr_pi          = 0.00002
+        self.lr_q           = self.lr_pi * 1.25
         self.gamma          = 0
-        self.batch_size     = 2000
+        self.batch_size     = 256
         self.buffer_limit   = 1000000
-        self.tau            = 0.005   # for soft-update of Q using Q-target
+        self.tau            = 0.01   # for soft-update of Q using Q-target
         self.init_alpha     = 0.01
         self.target_entropy = - self.action_dim 
-        self.lr_alpha       = 0.05
+        self.lr_alpha       = self.lr_pi/2
         self.DEVICE         = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.memory         = ReplayBuffer(self.buffer_limit, self.DEVICE)
-        print(self.DEVICE)
 
         self.log_alpha = torch.tensor(np.log(self.init_alpha)).to(self.DEVICE)
         self.log_alpha.requires_grad = True

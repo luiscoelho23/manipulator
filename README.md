@@ -25,8 +25,8 @@ colcon build
 source install/setup.bash
 ```
 
-*source install/setup.bash -> ~/.bashrc
-*Erase manipulator.urdf from resources/robot_description and generate new with xacro manipulator.urdf.xacro
+*source install/setup.bash -> ~/.bashrc<br>
+*Erase manipulator.urdf from resources/robot_description and generate new with xacro manipulator.urdf.xacro<br>
 
 ## Run 
 #### Tested on: 
