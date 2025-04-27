@@ -2,7 +2,7 @@
 
 A ROS2 package for the FRANKA EMIKA Panda robot manipulator.
 
-![Franka Panda Robot](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Franka_Panda_Robot.jpg/320px-Franka_Panda_Robot.jpg)
+![Franka Panda Robot](https://franka.de/wp-content/uploads/2020/07/panda-robot-arm-1.jpg)
 
 ## Overview
 
