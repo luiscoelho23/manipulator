@@ -13,11 +13,10 @@ find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclpy REQUIRED)
-#ind_package(moveit_ros_planning REQUIRED)
-#find_package(moveit_core REQUIRED)
 find_package(fcl REQUIRED) 
 find_package(PkgConfig REQUIRED)
 find_package(urdf REQUIRED)
+find_package(std_msgs REQUIRED)
 
 # Find Assimp properly
 find_package(assimp QUIET)
@@ -54,11 +53,6 @@ target_link_libraries(run_cd
       assimp
 )
 
-#ament_target_dependencies(run_cd
-#  moveit_core
-#  moveit_ros_planning
-#)
-
 # Install Python modules
 ament_python_install_package(${PROJECT_NAME})
 
@@ -70,8 +64,13 @@ install(DIRECTORY
   PATTERN "__pycache__" EXCLUDE
 )
 
-install(DIRECTORY launch resources
+install(DIRECTORY launch resources config
   DESTINATION share/${PROJECT_NAME})
+
+# Install executables
+install(TARGETS run_cd 
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 find_package(ament_lint_auto REQUIRED)
 set(ament_cmake_copyright_FOUND TRUE)

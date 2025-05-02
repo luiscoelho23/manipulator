@@ -10,7 +10,7 @@ This package provides a complete setup for working with the FRANKA EMIKA Panda r
 
 - Collision detection environment
 - Robot simulation in Gazebo
-- Controller configuration
+- Position and effort controller support
 - Python utilities for kinematics and robot control
 
 ## Repository Structure
@@ -25,7 +25,7 @@ manipulator/
 │   └── run_cd.cpp
 ├── manipulator/            # Python modules
 │   ├── __init__.py
-│   ├── controller.py
+│   ├── controller.py       # Robot controller interface
 │   └── kdl_parser.py
 ├── launch/                 # Launch files
 │   └── launch.py
@@ -101,7 +101,10 @@ ros2 launch manipulator launch.py
 ```
 
 Launch arguments:
-- `controller_type`: Choose between `forward_position_controller` or `joint_trajectory_controller` (default: forward_position_controller)
+- `controller_type`: Choose controller type:
+  - `forward_position_controller` (default): Direct position control
+  - `joint_trajectory_controller_position`: Trajectory-based position control
+  - `joint_trajectory_controller_effort`: Trajectory-based effort control
 - `rviz`: Enable/disable RViz visualization (default: true)
 - `joint_state_publisher`: Enable/disable joint state publisher GUI (default: true)
 - `gazebo`: Enable/disable Gazebo simulation (default: true)
@@ -109,8 +112,11 @@ Launch arguments:
 
 Examples:
 ```bash
-# Launch with joint trajectory controller
-ros2 launch manipulator launch.py controller_type:=joint_trajectory_controller
+# Launch with joint trajectory controller (position mode)
+ros2 launch manipulator launch.py controller_type:=joint_trajectory_controller_position
+
+# Launch with effort controller
+ros2 launch manipulator launch.py controller_type:=forward_position_controller
 
 # Launch without Gazebo (for visualization only)
 ros2 launch manipulator launch.py gazebo:=false
@@ -118,6 +124,38 @@ ros2 launch manipulator launch.py gazebo:=false
 # Launch with a custom world file
 ros2 launch manipulator launch.py world:=custom_world.xml
 ```
+
+### Controller Interface
+
+The package provides a Python API for controlling the robot through the `controller.py` module:
+
+```python
+from manipulator import controller
+
+# Initialize with auto-detection of available controllers
+client = controller.ControllerClient()
+
+# Or specify a controller type and mode
+client = controller.ControllerClient(
+    controller_type='forward_position_controller',  # or other controller types
+    control_mode='position'  # 'position' or 'effort'
+)
+
+# Enable debug mode for verbose output
+client.set_debug_mode(True)
+
+# Send positions/efforts to the robot (all joint values in radians/Nm)
+client.send_goal(j1, j2, j3, j4, j5, j6, j7, duration=2.0)
+
+# Clean up when done
+client.destroy_node()
+```
+
+Available controller types:
+- `forward_position_controller`: Direct position control
+- `joint_trajectory_controller_position`: Smooth trajectory position control
+- `joint_trajectory_controller_effort`: Smooth trajectory effort control
+- `auto`: Auto-detect available controllers (default)
 
 ### Running the Collision Detection
 

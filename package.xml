@@ -12,11 +12,18 @@
   <depend>ros2_control</depend>
   <depend>ros2_controllers</depend>
   <depend>gazebo-ros2-control</depend>
+  <depend>urdf</depend>
+  <depend>std_msgs</depend>
   
-  <exec_depend>std_msgs</exec_depend>
+  <build_depend>fcl</build_depend>
+  <build_depend>assimp</build_depend>
+  <build_depend>libccd</build_depend>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <buildtool_depend>ament_cmake_python</buildtool_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

@@ -1,0 +1,114 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 1000  # Hz
+    
+    # Define controllers to be loaded
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    joint_trajectory_controller_position:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    joint_trajectory_controller_effort:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    forward_position_controller:
+      type: forward_command_controller/ForwardCommandController
+
+joint_trajectory_controller_position:
+  ros__parameters:
+    joints:
+      - panda_joint1
+      - panda_joint2
+      - panda_joint3
+      - panda_joint4
+      - panda_joint5
+      - panda_joint6
+      - panda_joint7
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+
+    state_publish_rate: 200.0
+    action_monitor_rate: 100.0
+
+    allow_partial_joints_goal: true
+    open_loop_control: true
+    allow_integration_in_goal_trajectories: true
+    hardware_state_has_offset: false
+    allow_nonzero_velocity_at_trajectory_end: false
+
+    constraints:
+      goal_time: 0.5
+      stopped_velocity_tolerance: 0.01
+      panda_joint1: {trajectory: 0.1, goal: 0.1}
+      panda_joint2: {trajectory: 0.1, goal: 0.1}
+      panda_joint3: {trajectory: 0.1, goal: 0.1}
+      panda_joint4: {trajectory: 0.1, goal: 0.1}
+      panda_joint5: {trajectory: 0.1, goal: 0.1}
+      panda_joint6: {trajectory: 0.1, goal: 0.1}
+      panda_joint7: {trajectory: 0.1, goal: 0.1}
+
+joint_trajectory_controller_effort:
+  ros__parameters:
+    joints:
+      - panda_joint1
+      - panda_joint2
+      - panda_joint3
+      - panda_joint4
+      - panda_joint5
+      - panda_joint6
+      - panda_joint7
+
+    command_interfaces:
+      - effort
+
+    state_interfaces:
+      - position
+      - velocity
+      - acceleration
+
+    state_publish_rate: 200.0
+    action_monitor_rate: 100.0
+
+    allow_partial_joints_goal: true
+    open_loop_control: false
+    allow_integration_in_goal_trajectories: true
+    hardware_state_has_offset: false
+    allow_nonzero_velocity_at_trajectory_end: false
+
+    gains:
+      panda_joint1: {p: 50.0, i: 0.0, d: 2.0, i_clamp: 0.0}
+      panda_joint2: {p: 50.0, i: 0.0, d: 2.0, i_clamp: 0.0}
+      panda_joint3: {p: 50.0, i: 0.0, d: 2.0, i_clamp: 0.0}
+      panda_joint4: {p: 50.0, i: 0.0, d: 2.0, i_clamp: 0.0}
+      panda_joint5: {p: 50.0, i: 0.0, d: 2.0, i_clamp: 0.0}
+      panda_joint6: {p: 50.0, i: 0.0, d: 2.0, i_clamp: 0.0}
+      panda_joint7: {p: 50.0, i: 0.0, d: 2.0, i_clamp: 0.0}
+
+    constraints:
+      goal_time: 0.5
+      stopped_velocity_tolerance: 0.01
+      panda_joint1: {trajectory: 0.1, goal: 0.1}
+      panda_joint2: {trajectory: 0.1, goal: 0.1}
+      panda_joint3: {trajectory: 0.1, goal: 0.1}
+      panda_joint4: {trajectory: 0.1, goal: 0.1}
+      panda_joint5: {trajectory: 0.1, goal: 0.1}
+      panda_joint6: {trajectory: 0.1, goal: 0.1}
+      panda_joint7: {trajectory: 0.1, goal: 0.1}
+
+forward_position_controller:
+  ros__parameters:
+    joints:
+      - panda_joint1
+      - panda_joint2
+      - panda_joint3
+      - panda_joint4
+      - panda_joint5
+      - panda_joint6
+      - panda_joint7
+    
+    interface_name: position
