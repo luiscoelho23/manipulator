@@ -29,6 +29,8 @@ manipulator/
 │   └── kdl_parser.py
 ├── launch/                 # Launch files
 │   └── launch.py
+├── config/                 # Configuration files  
+│   └── controllers.yaml    # Controllers config
 └── resources/              # Resource files
     ├── robot_description/  # URDF/XACRO files
     ├── controllers/        # Controller configurations
@@ -178,7 +180,7 @@ ros2 run xacro xacro src/manipulator/resources/robot_description/manipulator.urd
 
 ### Adding New Controllers
 
-1. Define new controller configurations in `resources/controllers/controllers.yaml`
+1. Define new controller configurations in `config/controllers.yaml`
 2. Update the launch file to use your new controller
 
 ## System Requirements
