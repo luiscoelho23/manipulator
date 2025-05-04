@@ -77,7 +77,7 @@ manipulator/
    ```bash
    mkdir -p ~/ws_manipulator/src
    cd ~/ws_manipulator/src
-   git clone https://github.com/lsuiceolho23/manipulator.git
+   git clone https://github.com/luiscoelho23/manipulator.git
    ```
 
 4. Build the workspace:
