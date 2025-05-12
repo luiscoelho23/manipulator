@@ -18,6 +18,7 @@ import time
 from control_msgs.msg import JointTolerance
 from controller_manager_msgs.msg import ControllerState
 import subprocess
+from controller_manager_msgs.srv import ListControllers
 
 class ControllerClient(Node):
     def __init__(self, ts=0.1, controller_type='auto', control_mode='position'):
@@ -80,7 +81,7 @@ class ControllerClient(Node):
         # Detect controller type if auto
         if controller_type == 'auto':
             self.get_logger().info('Auto-detecting controller type...')
-            self.controller_type = self._detect_controller_type()
+            self.controller_type = self.detect_controller()
             self.get_logger().info(f'Detected controller type: {self.controller_type}')
 
         # Initialize the appropriate controller
@@ -215,48 +216,62 @@ class ControllerClient(Node):
                 }
             self.get_logger().warning('Using default joint limits due to parsing error')
 
-    def _detect_controller_type(self):
-        """Auto-detect available controllers"""
-        self.get_logger().info('Attempting to detect available controllers...')
-        
-        # Try trajectory controllers first (preferred)
+    def detect_controller(self):
+        """Detect which controller is available and set control mode accordingly"""
+        # Define controller options to check
         controller_options = [
             ('joint_trajectory_controller_position', '/joint_trajectory_controller_position/follow_joint_trajectory'),
             ('joint_trajectory_controller_effort', '/joint_trajectory_controller_effort/follow_joint_trajectory'),
         ]
         
-        # Check each controller type
+        # First get list of active controllers
+        list_controllers_client = self.create_client(ListControllers, '/controller_manager/list_controllers')
+        if not list_controllers_client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().warning('Could not connect to controller_manager service')
+            return None
+            
+        future = list_controllers_client.call_async(ListControllers.Request())
+        rclpy.spin_until_future_complete(self, future)
+        
+        if future.result() is None:
+            self.get_logger().warning('Failed to get controller list')
+            return None
+            
+        active_controllers = [controller.name for controller in future.result().controller 
+                            if controller.state == 'active']
+        
+        self.get_logger().info(f'Active controllers: {active_controllers}')
+        
+        # Check only active controllers
         for controller_type, action_name in controller_options:
-            try:
-                self.get_logger().info(f'Checking for controller: {controller_type} at {action_name}')
-                temp_client = ActionClient(node=self, action_type=FollowJointTrajectory, action_name=action_name)
-                if temp_client.wait_for_server(timeout_sec=0.5):
-                    self.get_logger().info(f'Detected {controller_type} controller')
-                    
-                    # Set control mode based on detected controller type
-                    if 'effort' in controller_type:
-                        self.control_mode = 'effort'
-                    else:
-                        self.control_mode = 'position'
+            if controller_type in active_controllers:
+                try:
+                    self.get_logger().info(f'Checking for controller: {controller_type} at {action_name}')
+                    temp_client = ActionClient(node=self, action_type=FollowJointTrajectory, action_name=action_name)
+                    if temp_client.wait_for_server(timeout_sec=0.5):
+                        self.get_logger().info(f'Detected {controller_type} controller')
                         
-                    return controller_type
+                        # Set control mode based on detected controller type
+                        if 'effort' in controller_type:
+                            self.control_mode = 'effort'
+                        else:
+                            self.control_mode = 'position'
+                            
+                        return controller_type
+                except Exception as e:
+                    self.get_logger().debug(f'Failed to detect {controller_type}: {str(e)}')
+        
+        # Fall back to forward position controller if it's active
+        if 'forward_position_controller' in active_controllers:
+            try:
+                self.get_logger().info('Using forward_position_controller...')
+                self.control_mode = 'position'
+                return 'forward_position_controller'
             except Exception as e:
-                self.get_logger().debug(f'Failed to detect {controller_type}: {str(e)}')
-        
-        # Fall back to forward position controller
-        try:
-            # Check if publisher topic exists
-            self.get_logger().info('Checking for forward_position_controller...')
-            # Just return the forward controller type since we can't easily check if it exists
-            self.control_mode = 'position'
-            return 'forward_position_controller'
-        except Exception as e:
-            self.get_logger().warning(f'Failed to detect forward_position_controller: {str(e)}')
-        
-        # If nothing is detected, default to forward position controller
-        self.get_logger().warning('No controllers detected, defaulting to forward_position_controller')
-        self.control_mode = 'position'
-        return 'forward_position_controller'
+                self.get_logger().warning(f'Failed to use forward_position_controller: {str(e)}')
+                
+        self.get_logger().error('No active controllers found')
+        return None
 
     def _joint_state_callback(self, msg):
         """Callback for joint state messages"""

@@ -2,8 +2,6 @@
 
 A ROS2 package for the FRANKA EMIKA Panda robot manipulator.
 
-![Franka Panda Robot](https://franka.de/wp-content/uploads/2020/07/panda-robot-arm-1.jpg)
-
 ## Overview
 
 This package provides a complete setup for working with the FRANKA EMIKA Panda robot, including:
@@ -77,7 +75,7 @@ manipulator/
    ```bash
    mkdir -p ~/ws_manipulator/src
    cd ~/ws_manipulator/src
-   git clone https://github.com/lsuiceolho23/manipulator.git
+   git clone https://github.com/luiscoelho23/manipulator.git
    ```
 
 4. Build the workspace:
